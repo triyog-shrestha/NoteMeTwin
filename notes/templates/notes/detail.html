@@ -1,0 +1,38 @@
+{% extends 'notes/base.html' %}
+
+{% block title %}{{ note.title }}{% endblock %}
+
+{% block content %}
+<section class="detail-shell">
+    <div class="detail-card card">
+        <div class="detail-meta">
+            <span class="note-pill">Created {{ note.date_added|date:'M d, Y' }}</span>
+            <span class="note-pill note-pill-muted">Updated {{ note.date_updated|date:'M d, Y' }}</span>
+        </div>
+
+        <h1>{{ note.title }}</h1>
+        <div class="detail-content">
+            {{ note.content|linebreaksbr }}
+        </div>
+
+        <div class="detail-actions">
+            <a class="button button-primary" href="{% url 'notes:edit_note' note.pk %}">Edit note</a>
+            <button class="button button-ghost" type="button" data-copy-note data-copy-title="{{ note.title|escapejs }}" data-copy-content="{{ note.content|escapejs }}">Copy text</button>
+            <form method="post" action="{% url 'notes:delete_note' note.pk %}" data-delete-form>
+                {% csrf_token %}
+                <button class="button button-danger" type="submit">Delete</button>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}<p>{{note.title}}</p> 
+<p>{{note.content}}</p>
+
+<a href="{% url 'notes:edit_note' note.pk %}">
+    Edit Note
+</a>
+
+<form method="POST" action="{% url 'notes:delete_note' note.pk %}">
+    {% csrf_token %}
+    <button type="submit">Delete</button>
+</form>

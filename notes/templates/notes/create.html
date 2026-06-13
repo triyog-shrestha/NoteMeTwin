@@ -1,0 +1,64 @@
+{% extends 'notes/base.html' %}
+
+{% block title %}{% if action == 'create' %}Create Note{% else %}Edit Note{% endif %}{% endblock %}
+
+{% block content %}
+<section class="form-shell">
+    <div class="section-header section-header-spaced">
+        <div>
+            <p class="eyebrow">{% if action == 'create' %}New note{% else %}Update note{% endif %}</p>
+            <h1>{% if action == 'create' %}Write something worth keeping.{% else %}Refine your note.{% endif %}</h1>
+        </div>
+        <a class="text-link" href="{% url 'notes:show_notes' %}">Back to notes</a>
+    </div>
+
+    <form class="note-form card" method="post" novalidate>
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+        <div class="form-errors">
+            {{ form.non_field_errors }}
+        </div>
+        {% endif %}
+
+        <div class="field-group">
+            <label for="id_title">Title</label>
+            {{ form.title }}
+            {% if form.title.errors %}
+            <div class="field-errors">{{ form.title.errors }}</div>
+            {% endif %}
+        </div>
+
+        <div class="field-group">
+            <div class="field-label-row">
+                <label for="id_content">Content</label>
+                <span class="field-counter" data-content-counter>0 chars</span>
+            </div>
+            {{ form.content }}
+            {% if form.content.errors %}
+            <div class="field-errors">{{ form.content.errors }}</div>
+            {% endif %}
+        </div>
+
+        <div class="form-actions">
+            <a class="button button-ghost" href="{% url 'notes:show_notes' %}">Cancel</a>
+            <button class="button button-primary" type="submit">
+                {% if action == 'create' %}Save note{% else %}Update note{% endif %}
+            </button>
+        </div>
+    </form>
+</section>
+{% endblock %}{% if action == 'create' %}
+<h1>Create new note</h1>
+{% else %}
+<h1>Update note</h1>
+{% endif %}
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    {% if action == 'create' %}
+    <button type="submit">Note</button>
+    {% else %}
+    <button type="submit">Update</button>
+    {% endif %}
+</form>

@@ -1,0 +1,54 @@
+{% extends 'notes/base.html' %}
+
+{% block title %}Your Notes{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div>
+        <p class="eyebrow">Home</p>
+        <h1>Keep every thought in one calm, focused workspace.</h1>
+        <p class="hero-copy">
+            Create quick notes, revisit older ideas, and keep track of updates without losing momentum.
+        </p>
+    </div>
+    <div class="hero-card">
+        <span class="hero-card-label">Total notes</span>
+        <strong>{{ notes|length }}</strong>
+        <p>Everything is organized by your latest updates.</p>
+    </div>
+</section>
+
+<section class="section-header">
+    <h2>Recent notes</h2>
+    {% if notes %}
+    <a class="button button-primary" href="{% url 'notes:create_new_note' %}">Create a note</a>
+    {% endif %}
+</section>
+
+{% if notes %}
+<section class="notes-grid">
+    {% for note in notes %}
+    <article class="note-card">
+        <a class="note-card-link" href="{% url 'notes:note_detail' note.pk %}">
+            <div class="note-card-top">
+                <span class="note-pill">Updated {{ note.date_updated|date:'M d' }}</span>
+            </div>
+            <h3>{{ note.title }}</h3>
+            <p>{{ note.content|default:'No content yet.'|truncatechars:140 }}</p>
+        </a>
+    </article>
+    {% endfor %}
+</section>
+{% else %}
+<section class="empty-state">
+    <h3>No notes yet</h3>
+    <p>Create your first note and start building your workspace.</p>
+    <a class="button button-primary" href="{% url 'notes:create_new_note' %}">Create first note</a>
+</section>
+{% endif %}
+{% endblock %}{% for note in notes %}
+    <a href="{% url 'notes:note_detail' note.pk %}"><p>{{note.title}}</p></a>
+{% endfor %}
+
+
+<a href="{% url 'notes:create_new_note' %}">Create new note</a>

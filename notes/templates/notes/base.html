@@ -1,0 +1,32 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Notes{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'notes/css/styles.css' %}">
+    <script defer src="{% static 'notes/js/app.js' %}"></script>
+</head>
+<body>
+    <div class="page-shell">
+        <div class="page-bg page-bg-a"></div>
+        <div class="page-bg page-bg-b"></div>
+
+        <header class="topbar">
+            <a class="brand" href="{% url 'notes:show_notes' %}">
+                <span class="brand-mark">N</span>
+                <span class="brand-text">
+                    <strong>NoteMeTwin</strong>
+                </span>
+            </a>
+
+        </header>
+
+        <main class="container">
+
+            {% block content %}{% endblock %}
+        </main>
+    </div>
+</body>
+</html>
